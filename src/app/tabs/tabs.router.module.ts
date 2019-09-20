@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { AuthGuard } from '../services/auth.guard';
+import { ChatPageModule } from '../Chat/chat.module';
 
 const routes: Routes = [
   {
@@ -13,7 +15,7 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('../feed/feed.module').then(m => m.FeedPageModule)
+              import('../Feed/feed.module').then(m => m.FeedPageModule)
           }
         ]
       },
@@ -22,8 +24,10 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: () =>
-              import('../chat/chat.module').then(m => m.ChatPageModule)
+            loadChildren: '../Chat/chat.module#ChatPageModule',
+            canActivate: [AuthGuard]
+            //loadChildren: () =>
+              //import('../Chat/chat.module').then(m => m.ChatPageModule)
           }
         ]
       },
@@ -32,8 +36,10 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            loadChildren: () =>
-              import('../profile/profile.module').then(m => m.ProfilePageModule)
+            loadChildren: '../Profile/profile.module#ProfilePageModule',
+            canActivate: [AuthGuard]
+            //loadChildren: () =>
+              //import('../Profile/profile.module').then(m => m.ProfilePageModule)
           }
         ]
       },
